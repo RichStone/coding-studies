@@ -6,8 +6,8 @@ describe PokerDeck do
 
   it "initializes a new poker deck with 52 cards" do
     expect(deck.cards.count).to eq(52)
-    expect(deck.cards.first).to eq(Card.new(:spades, 2))
-    expect(deck.cards.last).to eq(Card.new(:diamonds, :ace))
+    expect(deck.cards.first).to eq(Card.new(2, :spades))
+    expect(deck.cards.last).to eq(Card.new(:ace, :diamonds))
   end
 
   it "defines suits" do

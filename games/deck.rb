@@ -10,7 +10,7 @@ class PokerDeck
     @cards = []
     SUITS.each do |suit|
       VALUE_RANGE.each do |value|
-        @cards << Card.new(suit, value)
+        @cards << Card.new(value, suit)
       end
     end
   end
