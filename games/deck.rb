@@ -14,4 +14,11 @@ class PokerDeck
       end
     end
   end
+
+  def pop
+    index = rand(cards.count)
+    card = cards[index]
+    cards.delete_at(index)
+    card
+  end
 end
