@@ -14,24 +14,43 @@ describe Dice do
 
   context "#roll" do
     it "returns an Integer" do
-      expect(dice.roll).to be_a_kind_of(Integer)
+      expect(dice.roll).to be_kind_of(Integer)
     end
 
-    # TODO: do this for every dice side
-    it "1 appears on the dice" do
+    it "rolls every side at least once" do
       is_present = false
-      1000.times do
-        is_present = true if dice.roll == 1
+
+      dice.sides.each do |side|
+        # puts "SIDE: #{side}"
+
+        100.times do |i|
+          # puts i
+          if dice.roll == side
+            is_present = true
+            break
+          end
+        end
+
+        expect(is_present).to eq(true)
       end
-      expect(is_present).to eq(true)
     end
 
-    it "7 does not appear on the dice" do
+    it "does not roll non-existent sides" do
       is_present = false
-      1000.times do
-        is_present = true if dice.roll == 7
+
+      [0, 7].each do |side|
+        # puts "SIDE: #{side}"
+
+        100.times do |i|
+          # puts i
+          if dice.roll == side
+            is_present = true
+            break
+          end
+        end
+
+        expect(is_present).to eq(false)
       end
-      expect(is_present).to eq(false)
     end
   end
 end
