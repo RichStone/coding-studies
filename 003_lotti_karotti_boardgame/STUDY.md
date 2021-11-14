@@ -4,9 +4,9 @@
 
 1. [ ] Create the board
 
-![](./design.png)
+![](meta/design.png)
 
-![](./boardgame.jpg)
+![](meta/boardgame.jpg)
 
 ## Coding Study
 
