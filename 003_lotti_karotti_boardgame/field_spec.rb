@@ -17,4 +17,18 @@ RSpec.describe Field do
       end
     end
   end
+
+  context "#trap?" do
+    it "returns false per default" do
+      expect(field.trap?).to eq(false)
+    end
+
+    context "when it's a trap field" do
+      let(:field) { Field.new(trap: true, finish: true) }
+
+      it "returns true" do
+        expect(field.trap?).to eq(true)
+      end
+    end
+  end
 end

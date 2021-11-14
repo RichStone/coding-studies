@@ -3,11 +3,16 @@ class Field
     finish
   end
 
+  def trap?
+    trap
+  end
+
   private
 
-  attr_reader :finish
+  attr_reader :finish, :trap
 
-  def initialize(finish: false)
+  def initialize(trap: false, finish: false)
     @finish = finish
+    @trap = trap
   end
 end
