@@ -1,11 +1,35 @@
 require_relative "field"
+require_relative "field_factory"
 
 class Board
+  SPIN_ORDER = [12, 24, 15, 22, 6, 3, 18, 9, 20].freeze
+  SPIN_CYCLE = SPIN_ORDER.count + 1
+
   attr_reader :fields
+
+  def spin
+    self.spin_count += 1
+    next_field = self.spin_count - 1
+    previous_field = self.spin_count - 2
+
+    if self.spin_count == SPIN_CYCLE
+      self.fields[SPIN_ORDER[previous_field]].switch_hole!
+      self.spin_count = 0
+      return
+    end
+
+    self.fields[SPIN_ORDER[next_field]].switch_hole!
+    # -1 handles the first spin where there is no previous_field yet.
+    self.fields[SPIN_ORDER[previous_field]].switch_hole! if previous_field >= 0
+  end
 
   private
 
+  attr_accessor :spin_count
+
   def initialize
+    @spin_count = 0
+    # Initialize fields.
     traps = [3, 6, 9, 12, 15, 18, 20, 22, 24]
     @fields = 26.times.map do |i|
       traps.include?(i) ? FieldFactory.for(:trap) : FieldFactory.for(:regular)

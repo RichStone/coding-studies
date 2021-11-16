@@ -3,6 +3,7 @@ require_relative "field_factory"
 
 RSpec.describe FieldFactory do
   let(:factory) { described_class }
+
   context ".for" do
     context "a regular field" do
       let(:regular_field) { factory.for(:regular) }
