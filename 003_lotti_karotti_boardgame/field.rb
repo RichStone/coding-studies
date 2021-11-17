@@ -1,4 +1,17 @@
 class Field
+  private
+
+  attr_reader :finish, :trap
+  attr_accessor :hole
+
+  def initialize(trap: false, finish: false, hole: false)
+    @finish = finish
+    @trap = trap
+    @hole = hole
+  end
+
+  public
+
   def finish?
     finish
   end
@@ -17,16 +30,5 @@ class Field
 
     self.hole = !hole
     self
-  end
-
-  private
-
-  attr_reader :finish, :trap
-  attr_accessor :hole
-
-  def initialize(trap: false, finish: false, hole: false)
-    @finish = finish
-    @trap = trap
-    @hole = hole
   end
 end
