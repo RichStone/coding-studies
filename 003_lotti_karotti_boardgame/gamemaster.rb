@@ -10,6 +10,10 @@ class Gamemaster
 
   attr_reader :board
 
+  def spin_carrot
+    board.spin
+  end
+
   public
 
   def show_board
@@ -19,7 +23,11 @@ class Gamemaster
       when RegularField
         print "#-"
       when TrapField
-        print "⚪️-"
+        if field.hole?
+          print "🔥-"
+        else
+          print "⚪️-"
+        end
       when FinishField
         print "🥕\n\n\n"
       end
