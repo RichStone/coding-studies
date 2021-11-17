@@ -13,9 +13,9 @@ class Field
 
   def switch_hole!
     # Only change trap fields ever.
-    return self unless self.trap?
+    return self unless trap?
 
-    self.hole = !self.hole
+    self.hole = !hole
     self
   end
 

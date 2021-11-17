@@ -13,14 +13,14 @@ class Board
     previous_field = self.spin_count - 2
 
     if self.spin_count == SPIN_CYCLE
-      self.fields[SPIN_ORDER[previous_field]].switch_hole!
+      fields[SPIN_ORDER[previous_field]].switch_hole!
       self.spin_count = 0
       return
     end
 
-    self.fields[SPIN_ORDER[next_field]].switch_hole!
+    fields[SPIN_ORDER[next_field]].switch_hole!
     # -1 handles the first spin where there is no previous_field yet.
-    self.fields[SPIN_ORDER[previous_field]].switch_hole! if previous_field >= 0
+    fields[SPIN_ORDER[previous_field]].switch_hole! if previous_field >= 0
   end
 
   private

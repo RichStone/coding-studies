@@ -23,7 +23,7 @@ class FieldFactory
     regular: RegularField,
     trap: TrapField,
     finish: FinishField
-  }
+  }.freeze
 
   def self.for(type)
     raise ArgumentError unless TYPES[type]

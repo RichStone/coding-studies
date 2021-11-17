@@ -4,7 +4,10 @@
 
 1. [X] Create the board
 2. [X] Add board#spin
-3. [ ] Create the Game Master
+3. [ ] Create the Game Master and #show_board
+
+#-#-🟧-#-#-🔥-#-#...🥕
+
 
 ![](meta/design2.png)
 
