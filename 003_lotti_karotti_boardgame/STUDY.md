@@ -5,7 +5,9 @@
 1. [X] Create the board
 2. [X] Add board#spin
 3. [X] Create the Game Master and #show_board
-4. [ ] Create Players with bunnies 🐰
+4. [X] Create Players with bunnies 🐰
+5. [ ] Create Deck of cards
+7. [ ] Write spec for Gamemaster asking Player to move a bunny
 
 ![](meta/design2.png)
 
