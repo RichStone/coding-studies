@@ -1,11 +1,17 @@
 require 'ostruct'
 
 class Deck
-  def cards
-    cards = []
-    cards << (1..36).map { |_| OpenStruct.new(type: "asdf") }
-    cards << (1..12).map { |_| OpenStruct.new(type: "carrot") }
-    cards.flatten
+  attr_reader :cards
+
+  private
+
+  def initialize
+    @cards = []
+    @cards << (1..12).map { |_| OpenStruct.new(type: "potato", potato_count: 1) }
+    @cards << (1..12).map { |_| OpenStruct.new(type: "potato", potato_count: 2) }
+    @cards << (1..12).map { |_| OpenStruct.new(type: "potato", potato_count: 3) }
+    @cards << (1..12).map { |_| OpenStruct.new(type: "carrot", potato_count: 0) }
+    @cards.flatten!
   end
 end
 
