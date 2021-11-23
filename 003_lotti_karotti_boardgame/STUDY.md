@@ -7,27 +7,34 @@
 3. [X] Create the Game Master and #show_board
 4. [X] Create Players with bunnies 🐰
 5. [X] Create Deck of cards
-6. [ ] Create Game Client
-- 1. [ ] => creates Gamemaster
-- 2. [ ] => has states: Ongoing & Finished
-- 3. [ ] => returns summary/Analytics object
-3. [ ] Gamemaster
-- 1. [ ] => creates Board
-- 2. [ ] => creates Deck
-- 3. [ ] => creates Players
-- 4. [ ] => creates Round
-8. [ ] => starts round
-   1. picks card
-   2. points to player
-   3. expects message from player
-   4. moves bunny
-   5. repeat until winning condition reached || all players done
-   6. set winner
+6. [ ] Gamemaster
 
-**Last coding study: Simulation**
+- [ ] => creates Board
+- [ ] => creates Deck
+- [ ] => creates Players
+- [ ] => creates Round
+
+
+- [ ] => starts round
+
+1. picks card
+2. spins carrot || points to player
+   1. expects message from player
+   2. moves bunny
+3. repeat until winning condition reached || all players done
+4. set winner
+5. return summary
+
+**Follow up coding study: Simulation**
 
 * What are the stats for random moves?
+* What are the stats for different strategies?
 * Is there a winning strategy?
+
+**Follow up coding study: React client**
+
+* Can a web client communicate with only the gamemaster to serve a
+multiplayer game dynamic?
 
 ![](meta/design2.png)
 

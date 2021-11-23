@@ -1,4 +1,5 @@
 require_relative "board"
+require "ostruct"
 
 class Gamemaster
 
@@ -6,6 +7,7 @@ class Gamemaster
 
   def initialize
     @board = Board.new
+    @game_state = OpenStruct.new(winner: nil, rounds: 0)
   end
 
   attr_reader :board
@@ -15,6 +17,15 @@ class Gamemaster
   end
 
   public
+
+  attr_reader :game_state
+
+  def play
+    # TODO: Initialize and store all the core objects.
+    # TODO: Run game.
+    # TODO: Return the game state after a winner has been determined.
+    nil
+  end
 
   def show_board
     puts "- Lotti Karotti Game Board -\n\n"
