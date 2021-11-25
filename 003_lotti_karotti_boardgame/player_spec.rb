@@ -1,10 +1,10 @@
 require "rspec"
 require_relative "player"
+require_relative "board"
 
 RSpec.describe Player do
-  let(:player) { Player.new(color) }
-
   context "#bunnies" do
+    let(:player) { Player.new(color) }
     let(:color) { "green" }
 
     context "with a green color" do
@@ -28,5 +28,12 @@ RSpec.describe Player do
     end
   end
 
-  # TODO: MAKES DECISION WHICH BUNNY TO PLAY
+  context "#choose_bunny" do
+    let(:player) { Player.new("blue") }
+    let(:board) { Board.new }
+
+    it "returns the bunny to be moved" do
+      expect(player.choose_bunny(board)).to eq("blue-1")
+    end
+  end
 end

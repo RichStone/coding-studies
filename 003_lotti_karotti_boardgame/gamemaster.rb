@@ -17,8 +17,8 @@ class Gamemaster
   end
 
   def move_bunny(player)
-    # TODO: Player makes decision and returns bunny ID
-    "blue-1"
+    # TODO: This should actually be a Bunny instance.
+    bunny = player.choose_bunny(board)
   end
 
   public
@@ -28,7 +28,8 @@ class Gamemaster
   def play
     # TODO: Initialize and store all the core objects.
     # TODO: Run game.
-    # TODO: Return the game state after a winner has been determined.
+    # TODO: Return the game state after a winner has been determined
+    # or all bunnies have been swallowed.
     nil
   end
 
