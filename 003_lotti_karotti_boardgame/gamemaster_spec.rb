@@ -1,6 +1,7 @@
 require "rspec"
 require "ostruct"
 require_relative "gamemaster.rb"
+require_relative "player.rb"
 
 RSpec.describe Gamemaster do
   subject(:gamemaster) { Gamemaster.new }
@@ -68,6 +69,14 @@ RSpec.describe Gamemaster do
 
     it "returns 0 rounds initially" do
       expect(gamemaster.game_state.rounds).to eq(0)
+    end
+  end
+
+  context "#move_bunny" do
+    let(:player) { Player.new("blue")}
+
+    it "gets the bunny to be moved" do
+      expect(gamemaster.send(:move_bunny, player)).to eq("blue-1")
     end
   end
 end

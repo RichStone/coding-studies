@@ -16,6 +16,11 @@ class Gamemaster
     board.spin
   end
 
+  def move_bunny(player)
+    # TODO: Player makes decision and returns bunny ID
+    "blue-1"
+  end
+
   public
 
   attr_reader :game_state
