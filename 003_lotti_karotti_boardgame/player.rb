@@ -3,7 +3,7 @@ require "ostruct"
 class Player
   attr_reader :bunnies
 
-  # TODO: Pass a Board and a Bunny instance.
+  # TODO: Pass a Board and BunnyPool.
   def choose_bunny(board)
     # TODO: This will actually return a Bunny instance.
     "blue-1"
