@@ -5,6 +5,12 @@ require_relative "field_factory"
 RSpec.describe Field do
   let(:field) { Field.new }
 
+  context "#occupied_by" do
+    it "initializes with nil" do
+      expect(field.occupied_by).to eq(nil)
+    end
+  end
+
   context "#finish?" do
     it "returns false per default" do
       expect(field.finish?).to eq(false)

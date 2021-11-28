@@ -1,51 +1,98 @@
 require "rspec"
 require "ostruct"
-require_relative "gamemaster.rb"
-require_relative "player.rb"
+require_relative "gamemaster"
+require_relative "player"
+require_relative "bunny"
+require_relative "bunny_pool"
 
 RSpec.describe Gamemaster do
   subject(:gamemaster) { Gamemaster.new }
 
-  it "shows the board" do
-    expect { gamemaster.show_board }
-      .to output(
-        <<~TEXT
-          - Lotti Karotti Game Board -
+  context "#show_board" do
+    it "shows the board" do
+      expect { gamemaster.show_board }
+        .to output(
+          <<~TEXT
+            - Lotti Karotti Game Board -
 
-          #-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-⚪️-#-⚪️-#-⚪️-#-🥕
-
-
-        TEXT
-      ).to_stdout
-  end
-
-  it "shows board with an activated trap" do
-    gamemaster.send(:spin_carrot)
-    expect { gamemaster.show_board }
-      .to output(
-        <<~TEXT
-          - Lotti Karotti Game Board -
-
-          #-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-🔥-#-#-⚪️-#-#-⚪️-#-⚪️-#-⚪️-#-⚪️-#-🥕
+            #-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-⚪️-#-⚪️-#-⚪️-#-🥕
 
 
         TEXT
-      ).to_stdout
-  end
+        ).to_stdout
+    end
 
-  it "shows the right traps" do
-    gamemaster.send(:spin_carrot)
-    gamemaster.send(:spin_carrot)
-    expect { gamemaster.show_board }
-      .to output(
-        <<~TEXT
-          - Lotti Karotti Game Board -
+    it "shows board with an activated trap" do
+      gamemaster.send(:spin_carrot)
+      expect { gamemaster.show_board }
+        .to output(
+          <<~TEXT
+            - Lotti Karotti Game Board -
 
-          #-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-⚪️-#-⚪️-#-🔥-#-🥕
+            #-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-🔥-#-#-⚪️-#-#-⚪️-#-⚪️-#-⚪️-#-⚪️-#-🥕
 
 
         TEXT
-      ).to_stdout
+        ).to_stdout
+    end
+
+    it "shows the right traps" do
+      gamemaster.send(:spin_carrot)
+      gamemaster.send(:spin_carrot)
+      expect { gamemaster.show_board }
+        .to output(
+          <<~TEXT
+            - Lotti Karotti Game Board -
+
+            #-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-⚪️-#-⚪️-#-🔥-#-🥕
+
+
+        TEXT
+        ).to_stdout
+    end
+
+    it "shows bunny on occupied field" do
+      gamemaster.send(:board).fields[2].occupied_by = Bunny.new("red")
+        expect { gamemaster.show_board }
+          .to output(
+            <<~TEXT
+              - Lotti Karotti Game Board -
+
+              #-#-🐰-⚪️-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-⚪️-#-⚪️-#-⚪️-#-🥕
+
+
+          TEXT
+          ).to_stdout
+    end
+
+    it "shows bunny in danger on trap field" do
+      gamemaster.send(:board).fields[3].occupied_by = Bunny.new("red")
+        expect { gamemaster.show_board }
+          .to output(
+            <<~TEXT
+              - Lotti Karotti Game Board -
+
+              #-#-#-(🐰️)-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-⚪️-#-⚪️-#-⚪️-#-🥕
+
+
+          TEXT
+          ).to_stdout
+    end
+
+    it "shows hole when bunny swallowed" do
+      gamemaster.send(:spin_carrot)
+      gamemaster.send(:board).fields[12].occupied_by = Bunny.new("red")
+      expect { gamemaster.show_board }
+          .to output(
+            <<~TEXT
+              - Lotti Karotti Game Board -
+
+              #-#-#-⚪️-#-#-⚪️-#-#-⚪️-#-#-🔥-#-#-⚪️-#-#-⚪️-#-⚪️-#-⚪️-#-⚪️-#-🥕
+
+
+          TEXT
+          ).to_stdout
+    end
   end
 
   context "#play" do
@@ -73,10 +120,20 @@ RSpec.describe Gamemaster do
   end
 
   context "#move_bunny" do
-    let(:player) { Player.new("blue")}
+    let(:bunny) { Bunny.new("red") }
+    let(:fields) { 3 }
+    let(:board) { gamemaster.send(:board) }
 
     it "gets the bunny to be moved" do
-      expect(gamemaster.send(:move_bunny, player)).to eq("blue-1")
+      expect { gamemaster.send(:move_bunny, fields, bunny) }
+        .to change { board.fields[2].occupied_by }.from(nil).to(be_a(Bunny))
+    end
+
+    context "when the player can't move a bunny" do
+      # TODO: Player returns nil?
+      it "returns early" do
+        # TODO: return early.
+      end
     end
   end
 end

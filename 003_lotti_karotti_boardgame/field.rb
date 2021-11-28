@@ -1,4 +1,5 @@
 class Field
+
   private
 
   attr_reader :finish, :trap
@@ -8,9 +9,12 @@ class Field
     @finish = finish
     @trap = trap
     @hole = hole
+    @occupied_by = nil
   end
 
   public
+
+  attr_accessor :occupied_by
 
   def finish?
     finish
@@ -29,6 +33,8 @@ class Field
     return self unless trap?
 
     self.hole = !hole
+    # TODO: If field was occupied by Bunny and turned to hole,
+    # set occupied_by to nil and return swallowed Bunny.
     self
   end
 end

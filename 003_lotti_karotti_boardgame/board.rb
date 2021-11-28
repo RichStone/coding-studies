@@ -35,8 +35,9 @@ class Board
       return
     end
 
-    fields[SPIN_ORDER[next_field]].switch_hole!
     # -1 handles the first spin where there is no previous_field yet.
     fields[SPIN_ORDER[previous_field]].switch_hole! if previous_field >= 0
+    fields[SPIN_ORDER[next_field]].switch_hole!
+    # TODO: Return swallowed bunny_id.
   end
 end

@@ -13,12 +13,12 @@ class Gamemaster
   attr_reader :board
 
   def spin_carrot
+    # TODO: handle_swallowed_bunny
     board.spin
   end
 
-  def move_bunny(player)
-    # TODO: This should actually be a Bunny instance.
-    bunny = player.choose_bunny(board)
+  def move_bunny(fields, bunny)
+    board.fields[2].occupied_by = bunny
   end
 
   public
@@ -38,12 +38,20 @@ class Gamemaster
     board.fields.each do |field|
       case field
       when RegularField
-        print "#-"
+        if field.occupied_by
+          print "🐰-"
+        else
+          print "#-"
+        end
       when TrapField
         if field.hole?
           print "🔥-"
         else
-          print "⚪️-"
+          if field.occupied_by
+            print "(🐰️)-"
+          else
+            print "⚪️-"
+          end
         end
       when FinishField
         print "🥕\n\n\n"
