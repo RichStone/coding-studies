@@ -22,11 +22,12 @@ class Gamemaster
     raise "move invalid: Bunny not found in pool nor on the board" unless current_position && bunny_pool(bunny)
 
     next_position = current_position
+    potatoes_available = amount_fields
     loop do
-      break if amount_fields == 0
+      break if potatoes_available == 0
 
       next_position += 1
-      board.fields[next_position].occupied_by.nil? ? amount_fields -= 1 : redo
+      board.fields[next_position].occupied_by.nil? ? potatoes_available -= 1 : redo
     end
 
     board.fields[next_position].occupied_by = bunny
@@ -47,6 +48,7 @@ class Gamemaster
     nil
   end
 
+  # The pool that a bunny belongs to.
   def bunny_pool(bunny)
     pools.reject { |pool| pool.get(bunny.id).nil? }.first
   end
@@ -55,6 +57,7 @@ class Gamemaster
 
   attr_reader :game_state
 
+  # Push the button 🕹.
   def play
     # TODO: Initialize and store all the core objects -> Run game -> Return the game state after a winner has been determined or all bunnies have been swallowed.
     nil
