@@ -4,28 +4,44 @@ require "ostruct"
 class Gamemaster
   def initialize
     @board = Board.new
+    @pools = [BunnyPool.new(5, "red"), BunnyPool.new(5, "green")]
     @game_state = OpenStruct.new(winner: nil, rounds: 0)
   end
 
-  attr_reader :board
+  attr_reader :board, :pools
 
   def spin_carrot
     new_hole = board.spin
     # TODO: remove bunny from bunnypool & set occupied_by=nil AFTER bunnypool initialized in gamemaster.
   end
 
-  def move_bunny(fields, bunny)
-    board.fields[2].occupied_by = bunny
+  # @param amount_fields [Integer] Amount of fields to move the Bunny for.
+  # @param bunny [Bunny] The Bunny to be moved.
+  def move_bunny(amount_fields, bunny)
+    current_position = bunny_position(bunny)
+    next_position = current_position + amount_fields if current_position || bunny_pool(bunny)
+    raise "next_position invalid: Bunny not found in pool nor on the board" unless next_position
+
+    board.fields[next_position].occupied_by = bunny
   end
 
-  # Bunny's current position on the board or nil if the bunny is not on the board
-  # yet.
+  # Bunny's current position on the board.
+  # -1 if alive but not on the board, i.e. he's 1 step away from the board's
+  # first position which is 0.
+  # nil if the bunny is not alive anymore.
   def bunny_position(bunny)
     position = nil
     board.fields.each_with_index do |field, i|
       position = i if field.occupied_by == bunny
     end
-    position
+
+    return position if position
+    return -1 if bunny_pool(bunny)
+    nil
+  end
+
+  def bunny_pool(bunny)
+    pools.reject { |pool| pool.get(bunny.id).nil? }.first
   end
 
   public

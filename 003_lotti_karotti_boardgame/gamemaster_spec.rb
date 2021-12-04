@@ -120,13 +120,13 @@ RSpec.describe Gamemaster do
   end
 
   context "#move_bunny" do
-    let(:bunny) { Bunny.new("red") }
+    let(:bunny) { gamemaster.pools.first.bunnies.first }
     let(:fields) { 3 }
-    let(:board) { gamemaster.send(:board) }
+    let(:board) { gamemaster.board }
 
-    it "gets the bunny to be moved" do
-      expect { gamemaster.send(:move_bunny, fields, bunny) }
-        .to change { board.fields[2].occupied_by }.from(nil).to(be_a(Bunny))
+    it "moves the bunny" do
+      expect { gamemaster.move_bunny(fields, bunny) }
+        .to change { board.fields[2].occupied_by }.from(nil).to(bunny)
     end
 
     context "when the player can't move a bunny" do
@@ -138,16 +138,29 @@ RSpec.describe Gamemaster do
   end
 
   context "#bunny_position" do
-    let(:bunny) { Bunny.new("red") }
-
     it "detects a bunny on their position" do
+      bunny = Bunny.new("red")
       gamemaster.board.fields[3].occupied_by = bunny
 
       expect(gamemaster.bunny_position(bunny)).to eq(3)
     end
 
-    it "returns nil when bunny not on board yet" do
+    it "returns nil when bunny isn't alive anymore" do
+      bunny = gamemaster.pools.first.bunnies.first
+      gamemaster.pools.first.remove(bunny.id)
       expect(gamemaster.bunny_position(bunny)).to eq(nil)
+    end
+  end
+
+  context "#bunny_pool" do
+    it "returns pool of a bunny" do
+      bunny = gamemaster.pools.first.bunnies.first
+      expect(gamemaster.bunny_pool(bunny)).to eq(gamemaster.pools.first)
+    end
+
+    it "returns nil if a bunny is not in one of the pools" do
+      bunny = Bunny.new("red")
+      expect(gamemaster.bunny_pool(bunny)).to eq(nil)
     end
   end
 end
