@@ -13,8 +13,8 @@ class Gamemaster
   attr_reader :board
 
   def spin_carrot
-    # TODO: handle_swallowed_bunny
-    board.spin
+    new_hole = board.spin
+    # TODO: remove bunny from bunnypool & set occupied_by=nil AFTER bunnypool initialized in gamemaster.
   end
 
   def move_bunny(fields, bunny)
@@ -26,10 +26,7 @@ class Gamemaster
   attr_reader :game_state
 
   def play
-    # TODO: Initialize and store all the core objects.
-    # TODO: Run game.
-    # TODO: Return the game state after a winner has been determined
-    # or all bunnies have been swallowed.
+    # TODO: Initialize and store all the core objects -> Run game -> Return the game state after a winner has been determined or all bunnies have been swallowed.
     nil
   end
 

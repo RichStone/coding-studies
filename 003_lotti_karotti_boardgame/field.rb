@@ -33,8 +33,6 @@ class Field
     return self unless trap?
 
     self.hole = !hole
-    # TODO: If field was occupied by Bunny and turned to hole,
-    # set occupied_by to nil and return swallowed Bunny.
     self
   end
 end

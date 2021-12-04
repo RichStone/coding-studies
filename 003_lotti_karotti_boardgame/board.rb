@@ -24,6 +24,7 @@ class Board
 
   attr_reader :fields
 
+  # @return [Field] The field that was switched to hole.
   def spin
     self.spin_count += 1
     next_field = self.spin_count - 1
@@ -38,6 +39,5 @@ class Board
     # -1 handles the first spin where there is no previous_field yet.
     fields[SPIN_ORDER[previous_field]].switch_hole! if previous_field >= 0
     fields[SPIN_ORDER[next_field]].switch_hole!
-    # TODO: Return swallowed bunny_id.
   end
 end
