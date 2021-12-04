@@ -129,11 +129,34 @@ RSpec.describe Gamemaster do
         .to change { board.fields[2].occupied_by }.from(nil).to(bunny)
     end
 
-    context "when the player can't move a bunny" do
-      # TODO: Player returns nil?
-      it "returns early" do
-        # TODO: return early.
-      end
+    it "ignores occupied field and doesn't count as a jump" do
+      blocking_bunny = Bunny.new("red")
+      gamemaster.board.fields[0].occupied_by = blocking_bunny
+
+      expect { gamemaster.move_bunny(fields, bunny) }
+        .to change { board.fields[3].occupied_by }.from(nil).to(bunny)
+    end
+
+    it "ignores multiple occupied fields and doesn't count as a jumps" do
+      blocking_bunny1 = Bunny.new("red")
+      blocking_bunny2 = Bunny.new("green")
+      gamemaster.board.fields[0].occupied_by = blocking_bunny1
+      gamemaster.board.fields[1].occupied_by = blocking_bunny2
+
+      expect { gamemaster.move_bunny(fields, bunny) }
+        .to change { board.fields[4].occupied_by }.from(nil).to(bunny)
+    end
+
+    it "ignores open holes but counts the jump" do
+
+    end
+
+    it "falls down if the last jump is a hole" do
+
+    end
+
+    it "switches game state if field is carrot" do
+
     end
   end
 

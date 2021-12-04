@@ -19,9 +19,16 @@ class Gamemaster
   # @param bunny [Bunny] The Bunny to be moved.
   def move_bunny(amount_fields, bunny)
     current_position = bunny_position(bunny)
-    raise "next_position invalid: Bunny not found in pool nor on the board" unless current_position && bunny_pool(bunny)
+    raise "move invalid: Bunny not found in pool nor on the board" unless current_position && bunny_pool(bunny)
 
-    next_position = current_position + amount_fields
+    next_position = current_position
+    loop do
+      break if amount_fields == 0
+
+      next_position += 1
+      board.fields[next_position].occupied_by.nil? ? amount_fields -= 1 : redo
+    end
+
     board.fields[next_position].occupied_by = bunny
   end
 
