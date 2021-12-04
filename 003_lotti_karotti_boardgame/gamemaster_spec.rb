@@ -136,4 +136,18 @@ RSpec.describe Gamemaster do
       end
     end
   end
+
+  context "#bunny_position" do
+    let(:bunny) { Bunny.new("red") }
+
+    it "detects a bunny on their position" do
+      gamemaster.board.fields[3].occupied_by = bunny
+
+      expect(gamemaster.bunny_position(bunny)).to eq(3)
+    end
+
+    it "returns nil when bunny not on board yet" do
+      expect(gamemaster.bunny_position(bunny)).to eq(nil)
+    end
+  end
 end

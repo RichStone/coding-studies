@@ -2,9 +2,6 @@ require_relative "board"
 require "ostruct"
 
 class Gamemaster
-
-  private
-
   def initialize
     @board = Board.new
     @game_state = OpenStruct.new(winner: nil, rounds: 0)
@@ -19,6 +16,16 @@ class Gamemaster
 
   def move_bunny(fields, bunny)
     board.fields[2].occupied_by = bunny
+  end
+
+  # Bunny's current position on the board or nil if the bunny is not on the board
+  # yet.
+  def bunny_position(bunny)
+    position = nil
+    board.fields.each_with_index do |field, i|
+      position = i if field.occupied_by == bunny
+    end
+    position
   end
 
   public
