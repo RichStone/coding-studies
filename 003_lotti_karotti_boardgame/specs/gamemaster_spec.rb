@@ -121,11 +121,10 @@ RSpec.describe Gamemaster do
 
   context "#move_bunny" do
     let(:bunny) { gamemaster.pools.first.bunnies.first }
-    let(:fields) { 3 }
     let(:board) { gamemaster.board }
 
     it "moves the bunny" do
-      expect { gamemaster.move_bunny(fields, bunny) }
+      expect { gamemaster.move_bunny(3, bunny) }
         .to change { board.fields[2].occupied_by }.from(nil).to(bunny)
     end
 
@@ -133,7 +132,7 @@ RSpec.describe Gamemaster do
       blocking_bunny = Bunny.new("red")
       gamemaster.board.fields[0].occupied_by = blocking_bunny
 
-      expect { gamemaster.move_bunny(fields, bunny) }
+      expect { gamemaster.move_bunny(3, bunny) }
         .to change { board.fields[3].occupied_by }.from(nil).to(bunny)
     end
 
@@ -143,19 +142,40 @@ RSpec.describe Gamemaster do
       gamemaster.board.fields[0].occupied_by = blocking_bunny1
       gamemaster.board.fields[1].occupied_by = blocking_bunny2
 
-      expect { gamemaster.move_bunny(fields, bunny) }
+      expect { gamemaster.move_bunny(3, bunny) }
         .to change { board.fields[4].occupied_by }.from(nil).to(bunny)
     end
 
-    it "ignores open holes but counts the jump" do
+    context "with a 🔥 hole 🔥 in front of the bunny" do
+      it "ignores open holes but counts the jump" do
+        gamemaster.spin_carrot # Hole is now at index 12 🔥
+        bunny = gamemaster.pools.first.bunnies.first
+        gamemaster.board.fields[10].occupied_by = bunny
 
+        expect { gamemaster.move_bunny(3, bunny) }
+          .to change { board.fields[13].occupied_by }.from(nil).to(bunny)
+      end
+
+      it "falls down if the last jump is a hole" do
+        gamemaster.spin_carrot # Hole is now at index 12 🔥
+        bunny = gamemaster.pools.first.bunnies.first
+        gamemaster.board.fields[11].occupied_by = bunny
+
+        expect { gamemaster.move_bunny(1, bunny) }
+          .not_to change { board.fields[12].occupied_by }.from(nil)
+      end
+
+      it "removes Bunny from the pool" do
+        gamemaster.spin_carrot # Hole is now at index 12 🔥
+        bunny = gamemaster.pools.first.bunnies.first
+        gamemaster.board.fields[11].occupied_by = bunny
+
+        expect { gamemaster.move_bunny(1, bunny) }
+          .to change { gamemaster.bunny_pool(bunny) }.from(BunnyPool).to(nil)
+      end
     end
 
-    it "falls down if the last jump is a hole" do
-
-    end
-
-    it "switches game state if field is carrot" do
+    it "switches game state if field is carrot 🥕" do
 
     end
   end

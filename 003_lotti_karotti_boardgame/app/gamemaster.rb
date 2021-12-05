@@ -30,7 +30,13 @@ class Gamemaster
       board.fields[next_position].occupied_by.nil? ? potatoes_available -= 1 : redo
     end
 
-    board.fields[next_position].occupied_by = bunny
+    if board.fields[next_position].hole?
+      bunny_pool(bunny).remove(bunny.id)
+    elsif board.fields[next_position].finish?
+      # TODO: Game state changed.
+    else
+      board.fields[next_position].occupied_by = bunny
+    end
   end
 
   # Bunny's current position on the board.
