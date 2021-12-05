@@ -1,6 +1,6 @@
 require "rspec"
-require_relative "player"
-require_relative "board"
+require_relative "../app/player"
+require_relative "../app/board"
 
 RSpec.describe Player do
   context "#choose_bunny" do

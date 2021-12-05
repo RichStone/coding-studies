@@ -1,5 +1,5 @@
 require "rspec"
-require_relative "board"
+require_relative "../app/board"
 
 RSpec.describe Board do
   let(:board) { Board.new }

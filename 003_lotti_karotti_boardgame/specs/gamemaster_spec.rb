@@ -1,9 +1,9 @@
 require "rspec"
 require "ostruct"
-require_relative "gamemaster"
-require_relative "player"
-require_relative "bunny"
-require_relative "bunny_pool"
+require_relative "../app/gamemaster"
+require_relative "../app/player"
+require_relative "../app/bunny"
+require_relative "../app/bunny_pool"
 
 RSpec.describe Gamemaster do
   subject(:gamemaster) { Gamemaster.new }

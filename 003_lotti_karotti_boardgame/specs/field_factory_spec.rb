@@ -1,5 +1,5 @@
 require "rspec"
-require_relative "field_factory"
+require_relative "../app/field_factory"
 
 RSpec.describe FieldFactory do
   let(:factory) { described_class }

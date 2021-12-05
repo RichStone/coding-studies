@@ -1,5 +1,5 @@
 require "rspec"
-require_relative "deck"
+require_relative "../app/deck"
 
 RSpec.describe Deck do
   subject(:deck) { Deck.new }

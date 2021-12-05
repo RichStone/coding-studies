@@ -86,6 +86,6 @@ class Gamemaster
       when FinishField
         print "🥕\n\n\n"
       end
-    end
+    end; nil
   end
 end

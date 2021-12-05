@@ -1,5 +1,5 @@
 require "rspec"
-require_relative "bunny"
+require_relative "../app/bunny"
 
 RSpec.describe Bunny do
   let(:bunny) { Bunny.new("red") }
