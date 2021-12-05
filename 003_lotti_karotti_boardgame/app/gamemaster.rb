@@ -30,13 +30,17 @@ class Gamemaster
       break if potatoes_available == 0
 
       next_position += 1
+      break if board.fields[next_position].finish?
+
       board.fields[next_position].occupied_by.nil? ? potatoes_available -= 1 : redo
     end
 
     if board.fields[next_position].hole?
       bunny_pool(bunny).remove(bunny.id)
     elsif board.fields[next_position].finish?
-      # TODO: Game state changed.
+      board.fields[next_position].occupied_by = bunny
+      game_state.winner = bunny.color
+      game_state.status = "finished"
     else
       board.fields[next_position].occupied_by = bunny
     end

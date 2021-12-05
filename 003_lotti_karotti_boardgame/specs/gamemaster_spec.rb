@@ -107,7 +107,7 @@ RSpec.describe Gamemaster do
 
   context "#game_state" do
     it "returns the current game state" do
-      expect(gamemaster.game_state).to eq(OpenStruct.new(winner: nil, rounds: 0))
+      expect(gamemaster.game_state).to eq(OpenStruct.new(winner: nil, rounds: 0, status: "ongoing"))
     end
 
     it "returns nil winner initially" do
@@ -176,7 +176,11 @@ RSpec.describe Gamemaster do
     end
 
     it "switches game state if field is carrot 🥕" do
-
+      bunny = gamemaster.pools.first.bunnies.first
+      gamemaster.board.fields[25].occupied_by = bunny
+      expect { gamemaster.move_bunny(3, bunny) }
+        .to change { gamemaster.game_state.winner }.from(nil).to(bunny.color)
+        .and change { gamemaster.game_state.status }.from("ongoing").to("finished")
     end
   end
 
