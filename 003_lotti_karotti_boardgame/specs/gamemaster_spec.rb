@@ -180,6 +180,26 @@ RSpec.describe Gamemaster do
     end
   end
 
+  context "#spin_carrot" do
+    it "removes bunny from field" do
+      bunny = gamemaster.pools.first.bunnies.first
+      first_hole = gamemaster.board.fields[12]
+      first_hole.occupied_by = bunny
+
+      expect { gamemaster.spin_carrot }
+        .to change { first_hole.occupied_by }.from(bunny).to(nil)
+    end
+
+    it "removes bunny from pool" do
+      bunny = gamemaster.pools.first.bunnies.first
+      first_hole = gamemaster.board.fields[12]
+      first_hole.occupied_by = bunny
+
+      expect { gamemaster.spin_carrot }
+        .to change { gamemaster.bunny_pool(bunny) }.from(be_a(BunnyPool)).to(nil)
+    end
+  end
+
   context "#bunny_position" do
     it "detects a bunny on their position" do
       bunny = Bunny.new("red")

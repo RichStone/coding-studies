@@ -5,14 +5,17 @@ class Gamemaster
   def initialize
     @board = Board.new
     @pools = [BunnyPool.new(5, "red"), BunnyPool.new(5, "green")]
-    @game_state = OpenStruct.new(winner: nil, rounds: 0)
+    @game_state = OpenStruct.new(winner: nil, rounds: 0, status: "ongoing")
   end
 
   attr_reader :board, :pools
 
   def spin_carrot
     new_hole = board.spin
-    # TODO: remove bunny from bunnypool & set occupied_by=nil AFTER bunnypool initialized in gamemaster.
+    if (bunny = new_hole.occupied_by)
+      new_hole.occupied_by = nil
+      bunny_pool(bunny).remove(bunny.id)
+    end
   end
 
   # @param amount_fields [Integer] Amount of fields to move the Bunny for.
@@ -65,7 +68,7 @@ class Gamemaster
 
   # Push the button 🕹.
   def play
-    # TODO: Initialize and store all the core objects -> Run game -> Return the game state after a winner has been determined or all bunnies have been swallowed.
+    # TODO: Initialize and store all the core objects -> Run game -> Return the game state after a winner has been determined or <= 1 BunnyPool left.
     nil
   end
 
