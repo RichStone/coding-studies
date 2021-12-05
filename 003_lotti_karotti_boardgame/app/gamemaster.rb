@@ -2,9 +2,12 @@ require_relative "board"
 require "ostruct"
 
 class Gamemaster
-  def initialize
+  def initialize(colors = %w[red green])
     @board = Board.new
-    @pools = [BunnyPool.new(5, "red"), BunnyPool.new(5, "green")]
+    @pools = []
+    @players = []
+    colors.each { |color| @pools << BunnyPool.new(5, color); @players << Player.new(color)}
+    @deck = Deck.new
     @game_state = OpenStruct.new(winner: nil, rounds: 0, status: "ongoing")
   end
 
@@ -14,7 +17,7 @@ class Gamemaster
     new_hole = board.spin
     if (bunny = new_hole.occupied_by)
       new_hole.occupied_by = nil
-      bunny_pool(bunny).remove(bunny.id)
+      remove_bunny(bunny)
     end
   end
 
@@ -36,13 +39,25 @@ class Gamemaster
     end
 
     if board.fields[next_position].hole?
-      bunny_pool(bunny).remove(bunny.id)
+      remove_bunny(bunny)
     elsif board.fields[next_position].finish?
       board.fields[next_position].occupied_by = bunny
       game_state.winner = bunny.color
       game_state.status = "finished"
     else
       board.fields[next_position].occupied_by = bunny
+    end
+  end
+
+  def remove_bunny(bunny)
+    pool = bunny_pool(bunny)
+    pool.remove(bunny.id)
+    if pool.bunnies.empty?
+      pools.delete(pool)
+      if pools.count < 2
+        game_state.winner = pools.first.color
+        game_state.status = "finished"
+      end
     end
   end
 
@@ -72,8 +87,11 @@ class Gamemaster
 
   # Push the button 🕹.
   def play
-    # TODO: Initialize and store all the core objects -> Run game -> Return the game state after a winner has been determined or <= 1 BunnyPool left.
-    nil
+    while game_state.status == "ongoing"
+      break
+    end
+
+    puts "And the winner is #{game_state.winner} after X rounds and Y seconds"
   end
 
   def show_board

@@ -204,6 +204,17 @@ RSpec.describe Gamemaster do
     end
   end
 
+  context "#remove_bunny" do
+    it "changes game state with only 1 pool left" do
+      # This is probably a super brittle test with a lot of implicit setup!
+      4.times { bunny = gamemaster.pools.first.bunnies.first; gamemaster.remove_bunny(bunny) }
+      bunny = gamemaster.pools.first.bunnies.first
+      expect { gamemaster.remove_bunny(bunny) }
+        .to change { gamemaster.game_state.status }.from("ongoing").to("finished")
+        .and change { gamemaster.game_state.winner }.from(nil).to("green")
+    end
+  end
+
   context "#bunny_position" do
     it "detects a bunny on their position" do
       bunny = Bunny.new("red")
