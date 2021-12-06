@@ -7,4 +7,8 @@ class Bunny
     @id = SecureRandom.alphanumeric(3)
     @color = color
   end
+
+  def to_s
+    "#{color} Bunny #{id} 🐇"
+  end
 end

@@ -9,9 +9,14 @@ class Player
 
   public
 
+  attr_reader :color
+
   def choose_bunny(move_fields, bunny_pool, board)
     # Random choice mode, later also modes based on board position.
-    # TODO: For Random mode, make sure chosen Bunny is movable (i.e. no holes or blocks)
     bunny_pool.bunnies.sample
+  end
+
+  def to_s
+    "🤽 #{color} Player"
   end
 end

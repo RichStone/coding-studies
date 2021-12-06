@@ -95,27 +95,30 @@ class Gamemaster
   end
 
   def show_board
-    puts "- Lotti Karotti Game Board -\n\n"
     board.fields.each do |field|
       case field
       when RegularField
         if field.occupied_by
-          print "🐰-"
+          print "#{field.occupied_by.color[0].capitalize}🐰#{field.occupied_by.id} - "
         else
-          print "#-"
+          print "# - "
         end
       when TrapField
         if field.hole?
-          print "🔥-"
+          print "🔥 - "
         else
           if field.occupied_by
-            print "(🐰️)-"
+            print "❗#{field.occupied_by.color[0].capitalize}🐰#{field.occupied_by.id}❗ - "
           else
-            print "⚪️-"
+            print "🪤 - "
           end
         end
       when FinishField
-        print "🥕\n\n\n"
+        if field.occupied_by
+          print "#{field.occupied_by.color[0].capitalize} 🐰 🥕 #{field.occupied_by.id}\n\n\n"
+        else
+          print "🥕\n\n\n"
+        end
       end
     end; nil
   end
