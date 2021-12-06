@@ -1,4 +1,7 @@
 require_relative "board"
+require_relative "deck"
+require_relative "bunny_pool"
+require_relative "player"
 require "ostruct"
 
 class Gamemaster
@@ -11,7 +14,7 @@ class Gamemaster
     @game_state = OpenStruct.new(winner: nil, rounds: 0, status: "ongoing")
   end
 
-  attr_reader :board, :pools
+  attr_reader :board, :pools, :game_state, :players, :pools, :deck
 
   def spin_carrot
     new_hole = board.spin
@@ -47,6 +50,9 @@ class Gamemaster
     else
       board.fields[next_position].occupied_by = bunny
     end
+
+    # Remove from current position.
+    board.fields[current_position].occupied_by = nil if current_position >= 0
   end
 
   def remove_bunny(bunny)
@@ -81,17 +87,53 @@ class Gamemaster
     pools.reject { |pool| pool.get(bunny.id).nil? }.first
   end
 
-  public
-
-  attr_reader :game_state
+  # Get pool by color.
+  def get_pool(color)
+    pools.select { |pool| pool.color == color }.first
+  end
 
   # Push the button 🕹.
-  def play
-    while game_state.status == "ongoing"
-      break
+  def play(delay = 0)
+    start_time = Time.now
+
+    puts "Starting the game"
+    puts "Board now:"
+    show_board
+    sleep delay
+
+    while game_state.status != "finished"
+      game_state.rounds += 1
+
+      players.each do |player|
+        show_board
+        puts "🥊 #{player.color[0].capitalize}'s turn in round #{game_state.rounds} 🥊"
+        sleep delay
+
+        card = deck.cards.sample
+        puts card.visual
+        sleep delay
+
+        if card.type == "carrot"
+          puts "We gonna spin that thing!🥕"
+          spin_carrot
+          sleep delay
+        else
+          chosen_bunny = player.choose_bunny(card.potato_count, get_pool(player.color) ,board)
+          puts "Player #{player} chooses to move #{chosen_bunny}"
+          move_bunny(card.potato_count, chosen_bunny)
+          sleep delay
+        end
+
+        puts "Board after move:"
+        show_board
+        sleep delay
+        system "clear"
+      end
     end
 
-    puts "And the winner is #{game_state.winner} after X rounds and Y seconds"
+    show_board
+    puts "Game #{game_state.status}! 🏁 🎉"
+    puts "And the winner is #{game_state.winner} 🐰 after #{game_state.rounds} rounds and #{(Time.now - start_time).round(2)} seconds"
   end
 
   def show_board
