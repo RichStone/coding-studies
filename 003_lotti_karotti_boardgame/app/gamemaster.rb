@@ -15,7 +15,7 @@ class Gamemaster
 
   def spin_carrot
     new_hole = board.spin
-    if (bunny = new_hole.occupied_by)
+    if (bunny = new_hole&.occupied_by)
       new_hole.occupied_by = nil
       remove_bunny(bunny)
     end
